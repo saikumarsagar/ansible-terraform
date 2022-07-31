@@ -1,0 +1,28 @@
+---
+- name: setting up httpd on webserver
+  hosts: webservers
+  become: yes
+  tasks:
+  - name: installing httpd
+    yum:
+      name: httpd
+      state: installed
+  - name: starting httpd
+    systemd:
+      name: httpd
+      state: started
+  - name: enabling httpd
+    systemd:
+      name: httpd
+      enabled: yes
+  - name: installing git
+    yum:
+      name: git
+      state: installed
+
+  - name: adding git repo in /var/www/html
+    git:
+      clone: yes
+      repo: https://github.com/saikumarsagar/ecomm.git
+      dest: /var/www/html
+...
